@@ -14,14 +14,6 @@ class perceptron(object):
         else:
             return -1
 
-    def error(self, result, y):
-        if result > y:
-            return -1
-        elif result == y:
-            return 0
-        else:
-            return 1
-
     def binarizeY(self, y):
         for i in range(len(y)):
             if y[i] == 0:
@@ -43,6 +35,6 @@ class perceptron(object):
         for N in range(Niterations):
             for i in range(len(x)):
                 result = self.predict(x[i])
-                error = self.error(result, y[i])
-                self.weights = [(x[i][n]*error*learning_rate)+self.weights[n] for n in range(len(self.weights))]
-                self.activation = self.activation + (error*-1)
+                if result != y[i]:
+                    self.weights = [(x[i][n]*result*learning_rate) for n in range(len(self.weights))]
+                    self.activation = self.activation + (result*learning_rate)
